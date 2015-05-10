@@ -15,5 +15,6 @@ public class Game extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+
 	}
 }

@@ -1,13 +1,12 @@
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.code.stone.input.KeyboardListener;
 import com.code.stone.utils.CameraHelper;
 
 import java.util.Stack;
 
-public class WorldController extends InputAdapter {
+public class WorldController {
 
-    Stack<KeyboardListener> keyboardListeners = new Stack();
+    private static Stack<InputAdapter> keyboardListeners = new Stack<InputAdapter>();
 
     private CameraHelper cameraHelper;
 
@@ -16,11 +15,20 @@ public class WorldController extends InputAdapter {
     }
 
     private void init() {
-        Gdx.input.setInputProcessor(this);
         cameraHelper = new CameraHelper();
     }
 
     public void update(float deltaTime) {
         cameraHelper.update(deltaTime);
+    }
+
+    public static void pushKeyBoardListener(InputAdapter listener) {
+        keyboardListeners.push(listener);
+        Gdx.input.setInputProcessor(keyboardListeners.peek());
+    }
+
+    public static void popKeyBoardListener() {
+        keyboardListeners.pop();
+        Gdx.input.setInputProcessor(keyboardListeners.peek());
     }
 }
